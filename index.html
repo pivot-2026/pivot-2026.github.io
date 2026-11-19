@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8f7f2">
+  <meta name="description" content="PIVOT, a NeurIPS 2026 paper on training-free image reconstruction with anchored inertial proposals and objective verification. Explore reconstructions, benchmarks, and code.">
+  <meta property="og:title" content="PIVOT · NeurIPS 2026">
+  <meta property="og:description" content="Anchored Inertial Proposals with Objective Verification for Diffusion-Prior Inverse Problems">
+  <title>PIVOT — Anchored Inertial Proposals · NeurIPS 2026</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="preload" href="assets/fonts/dm-sans.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="assets/benchmarks.js"></script>
+  <script defer src="page.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="shell masthead">
+      <a href="#main" class="wordmark" aria-label="PIVOT home">PIVOT</a>
+      <nav aria-label="Sections">
+        <a href="#method">Method</a><a href="#comparisons">Comparisons</a><a href="#results">Results</a><a href="#citation">Citation</a>
+      </nav>
+      <a class="nav-code" href="https://github.com/Seunghyeok0715/PIVOT2026git"><span aria-hidden="true">&lt;/&gt;</span> Code</a>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero shell" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <div class="venue">NeurIPS 2026 <span class="venue-slash">/</span> Inha University</div>
+        <h1 id="hero-title">PIVOT</h1>
+        <p class="paper-title">Anchored Inertial Proposals with Objective Verification for Diffusion-Prior Inverse Problems</p>
+        <div class="byline">
+          <a href="https://ququlza.github.io/">Minwoo Kim<sup>∗</sup></a>
+          <a href="https://seunghyeok0715.github.io/">Seunghyeok Shin<sup>∗</sup></a>
+          <a href="https://www.linkedin.com/in/학생-전자공학-김다빈-24951a2b8">Dabin Kim</a>
+          <a href="https://milab-inha.github.io/">Hongki Lim<sup>†</sup></a>
+        </div>
+        <p class="author-notes">∗ Equal contribution <span>·</span> † Corresponding author</p>
+        <div class="paper-actions">
+          <a class="action primary" href="https://openreview.net/forum?id=8wurOw8o4D"><span class="paper-icon" aria-hidden="true"></span>Read paper</a>
+          <a class="action" href="https://neurips.cc/virtual/2026/loc/sydney/poster/155032">Conference poster</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="gallery shell" aria-labelledby="gallery-title">
+      <div class="gallery-header">
+        <h2 id="gallery-title">Reconstruction viewer</h2>
+        <p id="viewer-hint">Drag each divider to compare the measurement with PIVOT.</p>
+      </div>
+      <div class="viewer-row" id="viewer-row">
+        <figure class="viewer" aria-labelledby="caption-toucan">
+          <div class="compare" style="--split:44%">
+            <img src="assets/examples/toucan-pivot.png" width="256" height="256" alt="PIVOT reconstruction of a toucan perched among green leaves">
+            <img class="measurement-image" src="assets/examples/toucan-measurement.png" width="256" height="256" alt="Randomly masked measurement of the same toucan">
+            <div class="compare-label" aria-hidden="true"><span>Measurement</span></div>
+            <div class="compare-label reconstruction" aria-hidden="true"><span>PIVOT</span></div>
+            <div class="split-line" aria-hidden="true"><i></i></div>
+            <input type="range" min="0" max="100" value="44" step="1" aria-label="Random inpainting, measurement area percentage" aria-describedby="viewer-hint">
+          </div>
+          <figcaption id="caption-toucan">Random inpainting <small>ImageNet</small></figcaption>
+        </figure>
+        <figure class="viewer" aria-labelledby="caption-motorcar">
+          <div class="compare" style="--split:48%">
+            <img src="assets/examples/motorcar-pivot.png" width="256" height="256" alt="PIVOT reconstruction of an orange vintage car under a blue sky">
+            <img class="measurement-image" src="assets/examples/motorcar-measurement.png" width="256" height="256" alt="Motion-blurred measurement of the same car">
+            <div class="compare-label" aria-hidden="true"><span>Measurement</span></div>
+            <div class="compare-label reconstruction" aria-hidden="true"><span>PIVOT</span></div>
+            <div class="split-line" aria-hidden="true"><i></i></div>
+            <input type="range" min="0" max="100" value="48" step="1" aria-label="Motion deblurring, measurement area percentage" aria-describedby="viewer-hint">
+          </div>
+          <figcaption id="caption-motorcar">Motion deblurring <small>ImageNet</small></figcaption>
+        </figure>
+        <figure class="viewer" aria-labelledby="caption-hdr">
+          <div class="compare" style="--split:50%">
+            <img src="assets/examples/baby-hdr-pivot.png" width="256" height="256" alt="PIVOT HDR reconstruction of a baby in a blue and white blanket">
+            <img class="measurement-image" src="assets/examples/baby-hdr-measurement.png" width="256" height="256" alt="HDR measurement of the same baby, with saturated colors on the face and blanket">
+            <div class="compare-label" aria-hidden="true"><span>Measurement</span></div>
+            <div class="compare-label reconstruction" aria-hidden="true"><span>PIVOT</span></div>
+            <div class="split-line" aria-hidden="true"><i></i></div>
+            <input type="range" min="0" max="100" value="50" step="1" aria-label="HDR, measurement area percentage" aria-describedby="viewer-hint">
+          </div>
+          <figcaption id="caption-hdr">HDR <small>FFHQ</small></figcaption>
+        </figure>
+      </div>
+      <div class="gallery-footer">
+        <span>Pixel space</span>
+        <div class="gallery-controls" role="group" aria-label="Browse reconstruction examples" hidden>
+          <button type="button" data-browse="-1" aria-controls="viewer-row">Previous</button>
+          <button type="button" data-browse="1" aria-controls="viewer-row">Next</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="abstract shell" aria-labelledby="abstract-title">
+      <h2 id="abstract-title">Abstract</h2>
+      <div>
+        <p>A measurement update can improve the data fit at one diffusion step and still disrupt the denoising steps that follow. PIVOT uses the denoiser’s clean prediction as an anchor and asks whether a proposed correction is worth keeping.</p>
+        <p>Heavy-ball iterations propose a clean state with step size and momentum set from measured curvature. A separate test accepts it only if it lowers the frozen objective. The selected state is re-noised to continue sampling. This rule works in pixel and latent space with a pretrained prior and requires one denoiser call per noise level.</p>
+      </div>
+    </section>
+
+    <section id="method" class="method-band" aria-labelledby="method-title">
+      <div class="shell method-layout">
+        <div class="method-copy">
+          <h2 id="method-title">The method</h2>
+          <p class="method-lead">Propose with Inertia, Verify with an Objective Test.</p>
+          <dl class="method-steps">
+            <div><dt>Anchor</dt><dd>Freeze the denoiser prediction. The local objective combines measurement error with a quadratic penalty for moving away from this anchor.</dd></div>
+            <div><dt>Propose</dt><dd>Take inertial steps from the anchor. Changes in the data gradient estimate the curvature and determine the step size and momentum.</dd></div>
+            <div><dt>Verify</dt><dd>Compare the final proposal with the anchor on the same objective. Keep the proposal on a strict decrease, then add noise at the next scheduled level.</dd></div>
+          </dl>
+        </div>
+        <figure class="method-figure">
+          <a href="assets/pivot-overview.png" data-enlarge data-title="PIVOT at one reverse diffusion level" class="diagram-link" aria-label="Enlarge the PIVOT method diagram">
+            <img loading="lazy" src="assets/pivot-overview.png" width="2000" height="1180" alt="PIVOT algorithm showing the denoiser anchor, heavy-ball updates, final acceptance test, and fresh noising">
+          </a>
+          <figcaption>One reverse diffusion level. The verifier bounds the objective of the accepted state by the objective at the anchor.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="shell comparisons region" id="comparisons" aria-labelledby="comparison-title">
+      <div class="section-head">
+        <h2 id="comparison-title">Visual comparisons</h2>
+        <div class="switcher" role="group" aria-label="Comparison domain">
+          <button type="button" data-figure="natural" aria-pressed="true">Natural images</button>
+          <button type="button" data-figure="mri" aria-pressed="false">Knee MRI</button>
+        </div>
+      </div>
+      <figure class="paper-figure" id="paper-figure">
+        <a href="assets/pivot-reconstructions.png" data-enlarge data-title="Natural-image reconstructions" aria-label="Enlarge natural-image comparisons">
+          <img src="assets/pivot-reconstructions.png" loading="lazy" width="2000" height="895" alt="Measurements, competing reconstructions, PIVOT, and ground truth for four pixel and latent inverse problems">
+        </a>
+        <figcaption id="figure-caption">Pixel-space random inpainting and phase retrieval (left), and latent-space motion and nonlinear deblurring (right). Red boxes mark the enlarged regions.</figcaption>
+      </figure>
+    </section>
+
+    <section class="results-band" id="results" aria-labelledby="results-title">
+      <div class="shell region">
+        <div class="section-head"><h2 id="results-title">Benchmark results</h2><span class="source-label">Table 1 · NeurIPS 2026</span></div>
+        <p class="section-intro">Eight inverse problems on FFHQ and ImageNet. Each task uses 100 images at 256 × 256. Runtime is the average sampling time per draw on one RTX 6000 Ada GPU.</p>
+        <div class="filters" aria-label="Filter Table 1">
+          <label><span>Dataset</span><select id="dataset"><option value="ffhq">FFHQ</option><option value="imagenet">ImageNet</option></select></label>
+          <label><span>Prior</span><select id="prior"><option value="pixel">Pixel space</option><option value="latent">Latent space</option></select></label>
+          <label><span>Task</span><select id="task">
+            <option value="down_sampling">4× super-resolution</option><option value="inpainting">Box inpainting</option><option value="inpainting_rand">Random inpainting</option><option value="gaussian_blur">Gaussian deblurring</option><option value="motion_blur">Motion deblurring</option><option value="phase_retrieval">Phase retrieval</option><option value="nonlinear_blur">Nonlinear deblurring</option><option value="hdr">High dynamic range</option>
+          </select></label>
+        </div>
+        <div class="table-scroll" tabindex="0" role="region" aria-labelledby="results-title">
+          <table>
+            <caption class="sr-only" id="result-caption">FFHQ, pixel space, 4× super-resolution</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">PSNR ↑ <small>dB</small></th><th scope="col">SSIM ↑</th><th scope="col">LPIPS ↓</th><th scope="col">Time ↓ <small>s</small></th></tr></thead>
+            <tbody id="bench-body">
+              <tr class="pivot-row"><th scope="row">PIVOT</th><td>29.666</td><td>0.847</td><td>0.249</td><td>1.305</td></tr>
+              <tr><th scope="row">FAST-DIPS</th><td>29.573</td><td>0.841</td><td>0.244</td><td>1.394</td></tr>
+              <tr><th scope="row">DAPS</th><td>28.619</td><td>0.764</td><td>0.262</td><td>28.257</td></tr>
+              <tr><th scope="row">SITCOM</th><td>29.153</td><td>0.826</td><td>0.231</td><td>15.755</td></tr>
+              <tr><th scope="row">DMPlug</th><td>28.637</td><td>0.797</td><td>0.253</td><td>118.255</td></tr>
+              <tr><th scope="row">DCDP</th><td>27.611</td><td>0.785</td><td>0.225</td><td>4.719</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <span id="table-announcement" aria-live="polite" class="sr-only"></span>
+      </div>
+    </section>
+
+    <section class="shell cite region" id="citation" aria-labelledby="cite-title">
+      <div><h2 id="cite-title">Citation</h2><p>If you use PIVOT in your research, please cite the NeurIPS 2026 paper.</p></div>
+      <div class="citation-panel">
+        <div class="citation-head"><span>BibTeX</span><button id="copy" type="button">Copy citation</button><span id="copy-status" class="sr-only" role="status"></span></div>
+        <pre tabindex="0"><code id="bib">@inproceedings{kim2026pivot,
+  title     = {Anchored Inertial Proposals with Objective Verification for Diffusion-Prior Inverse Problems},
+  author    = {Kim, Minwoo and Shin, Seunghyeok and Kim, Dabin and Lim, Hongki},
+  booktitle = {Advances in Neural Information Processing Systems},
+  year      = {2026},
+  url       = {https://openreview.net/forum?id=8wurOw8o4D}
+}</code></pre>
+      </div>
+    </section>
+  </main>
+  <footer class="shell footer"><a href="#main" class="wordmark">PIVOT</a><span>Inha University · NeurIPS 2026</span><a href="#main">Back to top</a></footer>
+  <dialog id="lightbox" aria-labelledby="lightbox-title"><div class="dialog-bar"><h2 id="lightbox-title">Figure</h2><div class="dialog-tools"><button type="button" id="zoom-figure" aria-pressed="false">Actual size</button><button type="button" id="close-lightbox">Close</button></div></div><div class="dialog-content"><img id="lightbox-image" alt=""></div></dialog>
+</body>
+</html>
